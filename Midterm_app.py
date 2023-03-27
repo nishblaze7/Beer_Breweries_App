@@ -8,6 +8,8 @@ import seaborn as sns
 def main():
     st.set_page_config(layout="wide")
     st.image("beers.png")
+if __name__ == '__main__':
+  main()
 
 st.subheader("Information on datasets used is avaliable on the sidebar")
 with st.sidebar:
