@@ -2,8 +2,14 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 import altair as alt
+import os
+import seaborn as sns
 
-st.subheader("Please choose a dataset, information avaliable on the sidebar")
+def main():
+    st.set_page_config(layout="wide")
+    st.image("beers.png")
+
+st.subheader("Information on datasets used is avaliable on the sidebar")
 with st.sidebar:
   if st.checkbox("beer_reviews"):
    st.write("You have selected beer reviews, this dataset contains beer reviews from people around the United States")
@@ -13,6 +19,7 @@ with st.sidebar:
 
 #Read data
 df = pd.read_csv('Beer-reviews.csv')
+df2 = pd.read_csv('bar_location.csv')
 
 # show dataset
 if st.checkbox("Show dataset"):
@@ -49,3 +56,15 @@ elif type_of_plot == 'bar':
 elif type_of_plot == 'line':
     cust_data = df[selected_columns_names]
     st.line_chart(cust_data)
+
+
+if st.checkbox("Correlation Plot(Seaborn)"):
+  st.write(sns.heatmap(df.corr(),annot=True))
+  st.pyplot()
+st.set_option('deprecation.showPyplotGlobalUse', False)
+
+brewery = st.selectbox('Select a brewery', df2['Brewery'])
+filtered_df = df2[df2['Brewery']==brewery]
+st.dataframe(filtered_df)
+
+st.map(filtered_df)
